@@ -21,7 +21,7 @@ Code Segment
 	            mov    ah, 09h
 	            int    21h
 	; Display counter number
-				mov    dx, offset counter2
+	            mov    dx, offset counter2
 	            mov    ah, 09h
 	            int    21h
 
@@ -40,9 +40,12 @@ Code Segment
 	            cmp    al, 27                     	; compare ASCII in al to ASCII of ESCAPE
 	            jz     End_program
 
-				cmp al, "a"
-				jz Count1
-				jmp	   Input             			; Jump to end if cmp returns 0 (True)
+	            cmp    al, "s"
+	            jz     Decrease1
+
+	            cmp    al, "a"
+	            jz     Count1
+	            jmp    Input                      	; Jump to end if cmp returns 0 (True)
 
 	Count1:     
 	;COUNT1
@@ -67,18 +70,46 @@ Code Segment
 	            inc    ah                         	; al++
 	            mov    [di], ah                   	; load value of AL into DI's address
 
-	            cmp    al, ':'
+	            cmp    ah, ':'
 	            jz     End_program
 	            jmp    Display
+
+	Decrease1:  
+	;COUNT1
+	            mov    di, offset counter1
+	            mov    al, [di]                   	; load address of DI into AL
+	            dec    al                         	; al++
+	            mov    [di], al                   	; load value of AL into DI's address
+
+	            cmp    al, '/'
+	            jz     Reset2
+	            jmp    Display
+	;COUNT1
+	
+	;COUNT2
+	Reset2:     
+	            mov    al, '9'
+	            mov    [di], al
+
+	Decrease2:  
+	            mov    di, offset counter2
+	            mov    ah, [di]                   	; load address of DI into AL
+	            dec    ah                         	; al++
+	            mov    [di], ah                   	; load value of AL into DI's address
+
+	            cmp    ah, '/'
+	            jz     End_program
+	            jmp    Display
+
 
 	End_program:
 	            mov    ax, 4c00h
 	            int    21h
 
 	message1:   
-	            db     "The 'a' key was pressed $"
+	            db     "The counter is at the $"
 	message2:   
-	            db     " times$"
+	            db     " number$"
 	counter1:   
 	            db     "0$"
 	counter2:   
