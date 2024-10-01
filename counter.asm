@@ -12,9 +12,9 @@ Code Segment
 	Display:    
 	; Set cursor
 	            mov    ah, 02h
-	            mov    bh, 0                      	; screen number
-	            mov    dh, 10                     	; row
-	            mov    dl, 0                      	; column
+	            mov    bh, 0                     	; screen number
+	            mov    dh, 10                    	; row
+	            mov    dl, 0                     	; column
 	            int    10h
 	; Display string
 	            mov    dx, offset message1
@@ -34,10 +34,10 @@ Code Segment
 	            int    21h
 
 	Input:      
-	            xor    ax, ax                     	; reset ax
-	            int    16h                        	; Read keyboard input to AH, ASCII code to AL
+	            xor    ax, ax                    	; reset ax
+	            int    16h                       	; Read keyboard input to AH, ASCII code to AL
 
-	            cmp    al, 27                     	; compare ASCII in al to ASCII of ESCAPE
+	            cmp    al, 27                    	; compare ASCII in al to ASCII of ESCAPE
 	            jz     End_program
 
 	            cmp    al, "s"
@@ -45,57 +45,49 @@ Code Segment
 
 	            cmp    al, "a"
 	            jz     Count1
-	            jmp    Input                      	; Jump to end if cmp returns 0 (True)
+	            jmp    Input                     	; Jump to end if cmp returns 0 (True)
 
 	Count1:     
-	;COUNT1
 	            mov    di, offset counter1
-	            mov    al, [di]                   	; load address of DI into AL
-	            inc    al                         	; al++
-	            mov    [di], al                   	; load value of AL into DI's address
+	            mov    al, [di]                  	; load address of DI into AL
+	            inc    al                        	; al++
+	            mov    [di], al                  	; load value of AL into DI's address
 
 	            cmp    al, ':'
 	            jz     Reset1
 	            jmp    Display
-	;COUNT1
-	
-	;COUNT2
 	Reset1:     
 	            mov    al, '0'
 	            mov    [di], al
 
 	Count2:     
 	            mov    di, offset counter2
-	            mov    ah, [di]                   	; load address of DI into AL
-	            inc    ah                         	; al++
-	            mov    [di], ah                   	; load value of AL into DI's address
+	            mov    ah, [di]                  	; load address of DI into AL
+	            inc    ah                        	; al++
+	            mov    [di], ah                  	; load value of AL into DI's address
 
 	            cmp    ah, ':'
 	            jz     End_program
 	            jmp    Display
 
 	Decrease1:  
-	;COUNT1
 	            mov    di, offset counter1
-	            mov    al, [di]                   	; load address of DI into AL
-	            dec    al                         	; al++
-	            mov    [di], al                   	; load value of AL into DI's address
+	            mov    al, [di]                  	; load address of DI into AL
+	            dec    al                        	; al--
+	            mov    [di], al                  	; load value of AL into DI's address
 
 	            cmp    al, '/'
 	            jz     Reset2
 	            jmp    Display
-	;COUNT1
-	
-	;COUNT2
 	Reset2:     
 	            mov    al, '9'
 	            mov    [di], al
 
 	Decrease2:  
 	            mov    di, offset counter2
-	            mov    ah, [di]                   	; load address of DI into AL
-	            dec    ah                         	; al++
-	            mov    [di], ah                   	; load value of AL into DI's address
+	            mov    ah, [di]                  	; load address of DI into AL
+	            dec    ah                        	; ah--
+	            mov    [di], ah                  	; load value of AL into DI's address
 
 	            cmp    ah, '/'
 	            jz     End_program
