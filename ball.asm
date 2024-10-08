@@ -11,7 +11,7 @@ Code Segment
 	            xor    dx, dx
 	            push   dx                        	; old time to the stack (now 0)
 	Clear:      
-	            mov    ax, 03h
+	            mov    ax, 03h                   	; mod the screen to display space in old pos
 	            int    10h
 
 	            mov    dx, di                    	; (using 16 bits register) Clear to 0
