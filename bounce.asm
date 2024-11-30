@@ -8,55 +8,64 @@ Code Segment
 
 	             mov    dh, 0                     	; X - row
 	             mov    dl, 0                     	; Y - col
-	             push   dh                        	; push X
-	             push   dl                        	; push Y
+	             push   dx                        	; push Y
+	Time:        
+	             xor    ah, ah
+	             int    1ah                       	; Gets ticks since midnight into DX
+	             push   dx                        	; Save old time
+				 
+	Elapsed:     
+	             xor    ah, ah
+	             int    1ah                       	; Gets ticks since midnight into DX
+
+	             pop    cx                        	; Get old time
+	             push   cx                        	; Save old time
+
+	             sub    dx, cx                    	; Telapsed = Tcurrent - Told
+
+	             cmp    dx, 1                    	; Loop if dx < 100
+	             jc     Elapsed
+	             pop    cx
+	Clear:       
+	             mov    ax, 03h                   	; mod the screen to display space in old pos
+	             int    10h
+
+	             xor    dx, dx                    	; (using 16 bits register) Clear to 0
+
+	             xor    bh, bh
+	             mov    ah, 02h
+	             int    10h
 	Setpos:      
-	             pop    dl                        	; pop y
-	             pop    dh                        	; pop x
+	             pop    dx                        	; pop x
 	             mov    bh, 0
 	             mov    ah, 2
 	             int    10h
-	             push   dh                        	; push x
-	             push   dl                        	; push y
-
+	             push   dx
 	Write:       
 	             mov    dx, offset Bouncingtext
 	             mov    ah, 09h
 	             int    21h
 
 	Right:       
-	             pop    dl
+	             pop    dx
 	             inc    dl
 	             cmp    dl, 255
 	             je     Reset2
+	             push   dx
+	             jmp    Time
 	Reset2:      
 	             xor    dl,dl
-	             push   dl
-	             jmp    Setpos
-
+	             jmp    Down
 	Down:        
-	             pop    dl
-	             pop    dh
 	             inc    dh
 	             cmp    dh, 200
-	             jnc    Reset
+	             je     Reset
+	             push   dx
+	             jmp    Time
 	Reset:       
 	             xor    dh, dh
-	             push   dh
-	             push   dl
-	             jmp    Setpos
-	
-
-    
-				 
-
-
-
-
-
-
-
-
+	             push   dx
+	             jmp    Time
 	End_program: 
 	             mov    ax, 4c00h
 	             int    21h

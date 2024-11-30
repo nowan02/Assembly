@@ -111,8 +111,6 @@ Code Segment
 
 	            mov    ax, 4c00h
 	            int    21h
-	Threetwenty:
-
 Code Ends
 
 Data Segment

@@ -134,8 +134,6 @@ Code Segment
 	            jz     Jank_jump
 	            jmp    End_program
 
-
-
 	End_program:
 	            mov    ax, 4c00h
 	            int    21h
