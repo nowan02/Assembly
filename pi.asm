@@ -23,7 +23,7 @@ Code Segment
 	            mov    ax, Multip
 	            xor    dx, dx
 	            div    si
-	            sub    [di], ax
+	            add    [di], ax
 	            add    si, 2
 
 	            loop   Count
