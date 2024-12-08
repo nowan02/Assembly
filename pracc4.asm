@@ -118,22 +118,22 @@ Code Segment
                    mov    dl, 50                                               ; X
                    mov    dh, 50                                               ; Y
                    push   dx
-                   mov    cx, 40
 
+                   mov    cx, 40
                    mov    si, 40
+    ; Pixel = Y * 320 + X
     Draw:          
                    pop    dx
                    xor    ah, ah
                    mov    al, dh
                    push   dx
                    mov    bx, 320
-                   mul    bx
+                   mul    bx ; AX = AL * (BX)
                    pop    dx
                    push   dx
                    xor    dh, dh
                    add    ax, dx
     Pixel:         
-                   mov    di, ax
                    mov    di, ax
                    mov    al, 40
                    mov    es:[di], al
@@ -145,8 +145,8 @@ Code Segment
                    loop   Draw
 
                    pop    dx
-                   inc    dl
-                   mov    dh, 50
+                   inc    dl ; X++
+                   mov    dh, 50 ; Y = 50
                    push   dx
 
                    dec    si
@@ -338,6 +338,7 @@ Code Segment
 
                    xor    dx, dx
                    xor    bh, bh
+                   
                    mov    ah, 02h
                    int    10h
                    jmp    Time
